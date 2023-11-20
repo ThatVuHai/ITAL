@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <style>
+    .chart-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .chart-container canvas {
+      width: 100%;
+      max-width: 700px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chart-container">
+    <canvas id="nhietDoChart"></canvas>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+
+  <script>
+   const firebaseConfig = {
+  apiKey: "AIzaSyBODGPV2i2RTbFiCmdquxALyoypgHEbuOs",
+  authDomain: "vuonhoa-cd893.firebaseapp.com",
+  databaseURL: "https://vuonhoa-cd893-default-rtdb.firebaseio.com",
+  projectId: "vuonhoa-cd893",
+  storageBucket: "vuonhoa-cd893.appspot.com",
+  messagingSenderId: "538459820627",
+  appId: "1:538459820627:web:03b7cea8020df8de3daca6",
+  measurementId: "G-9YFW4YER5J"
+};
+
+    // Khởi tạo ứng dụng Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    var nhietDo ;
+    var dbRef = firebase.database().ref('sensor').child('Nhiet do');
+    dbRef.on('value', snap => nhietDo = snap.val());
+</script>
+<script>
+const xValues = [];
+    const yValues = [];
+    const barColors = ["blue"];
+    const barThickness = 10;
+    const ctx = document.getElementById('nhietDoChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues,
+          barThickness: barThickness
+        }]
+      },
+      options: {
+        legend: { display: false },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              suggestedMax: 100
+            }
+          }],
+        }
+      }
+    });
+
+    // Hàm cập nhật dữ liệu và vẽ lại biểu đồ
+    function updateChart() {
+      // Lấy thời gian cập nhật mới
+      const currentTime = new Date().toLocaleTimeString();
+      const newYValue = parseFloat(nhietDo);
+      // Cập nhật mảng xValues
+      xValues.push(currentTime);
+      yValues.push(newYValue);
+      // Giới hạn số lượng điểm dữ liệu hiển thị trên biểu đồ (tối đa 5 cột)
+      const maxDataPoints = 5;
+      if (xValues.length > maxDataPoints) {
+        xValues.shift(); // Xóa đi điểm dữ liệu cũ nhất
+      }
+      if (yValues.length > maxDataPoints) {
+        yValues.shift(); // Xóa đi điểm dữ liệu cũ nhất
+      }
+
+      // Cập nhật màu của từng cột dựa trên giá trị nhietDo
+      barColors.length = 0; // Xóa màu hiện tại
+
+      for (let i = 0; i < yValues.length; i++) {
+        if (yValues[i] > 40) {
+          barColors.push("red"); // Nếu nhietDo > 40, thì đổi màu thành đỏ
+        } else {
+          barColors.push("blue"); // Nếu nhietDo <= 40, thì giữ màu xanh
+        }
+      }
+
+      // Cập nhật dữ liệu trên biểu đồ
+      chart.data.datasets[0].data = yValues;
+      chart.data.labels = xValues;
+      chart.update(); // Vẽ lại biểu đồ
+    }
+
+    // Gọi hàm updateChart() sau mỗi 5 giây
+    setInterval(updateChart, 5000);
+</script>
+  
+</body>
+</html>

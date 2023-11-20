@@ -1,0 +1,268 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #cd9378;
+  font-family: "Poppins", sans-serif;
+}
+
+nav {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  padding: 3rem 10rem;
+  justify-content: space-between;
+}
+
+.container {
+  height: 100vh;
+
+}
+
+.container img {
+  width: 100%;
+  position: absolute;
+  height: 110vh;
+  object-fit: cover;
+  z-index: -1;
+  
+}
+
+.main-title {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  font-size: 4.7rem;
+  transform: translate(-50%, -50%);
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: rgb(211, 215, 214);
+  text-shadow: 5px 4px chocolate;
+}
+.display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Điều này sẽ làm cho nội dung căn giữa theo chiều dọc trên cả màn hình */
+  background-color: rgba(218, 244, 103, 0.6);
+  width: 500px;
+  border: solid 1px #EBEBEB;
+  border-radius: 10px;
+  padding: 4rem;
+}
+
+.content {
+  width: 100%;
+  background-color: rgb(18, 17, 16);
+  min-height: 110vh;
+  z-index: 2;
+  position: absolute;
+}
+
+.content-images {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.text {
+  padding: 2rem 20rem;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  nav,
+  .text {
+    padding: 2rem;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .main-title {
+    font-size: 3rem;
+  }
+
+  .content-images {
+    flex-direction: column;
+  }
+
+  .content-images img {
+    max-width: 100%;
+    padding: 2rem 0 0.25rem;
+  }
+}
+#time{
+  margin-left: 45%;
+  font-family: tahoma;
+  font-weight: 900;
+  font-size: 30px;
+}
+.container1 {
+  display: flex;
+  width: 90vw;
+}
+
+.panel {
+  background-size: auto 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 80vh;
+  border-radius: 50px;
+  color: #fff;
+  cursor: pointer;
+  flex: 0.5;
+  margin: 10px;
+  position: relative;
+  transition: flex 0.7s ease-in;
+  -webkit-transition: all 700ms ease-in;
+}
+
+.panel h3 {
+  font-size: 24px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  margin: 0;
+  opacity: 0;
+  color: rgb(255, 255, 255);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.panel.active {
+  flex: 5;
+}
+
+.panel.active h3 {
+  opacity: 1;
+  transition: opacity 0.3s ease-in 0.4s;
+}
+
+@media (max-width: 480px) {
+  .container1 {
+    width: 100vw;
+  }
+
+  .panel:nth-of-type(4),
+  .panel:nth-of-type(5) {
+    display: none;
+  }
+}
+.container2 {
+  width: 100%;
+  height: 70vh;
+}
+
+.leftpane {
+  width: 33%;
+  height: 70vh;
+  background-color: rgb(243, 243, 224);
+  display: flex;
+  border: 2px solid #0a0a0a; /* Độ rộng và màu sắc của khung */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+.leftpane a{
+  font-size: medium;
+  position: absolute; /* Đặt tiêu đề là phần tử có vị trí tương đối */
+  top: 450px; /* Đặt top thành 0 để đặt tiêu đề ở trên */
+  left: 25%; /* Đặt left thành 0 để đặt tiêu đề ở bên trái */
+  z-index: 1; /* Đặt z-index cao hơn để đảm bảo nằm phía trên hình ảnh */
+  background-color: rgba(243,243,224); /* Tạo nền mờ trắng cho tiêu đề (tuỳ chọn) */
+
+}
+.leftpane h1 {
+  position: absolute; /* Đặt tiêu đề là phần tử có vị trí tương đối */
+  top: 20px; /* Đặt top thành 0 để đặt tiêu đề ở trên */
+  left: 13%; /* Đặt left thành 0 để đặt tiêu đề ở bên trái */
+  z-index: 1; /* Đặt z-index cao hơn để đảm bảo nằm phía trên hình ảnh */
+  background-color: rgba(243,243,224); /* Tạo nền mờ trắng cho tiêu đề (tuỳ chọn) */
+}
+.h2{
+  font-size:50px;
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+.middlepane {
+  width: 33%;
+  height: 70vh;
+  background-color: rgb(243, 243, 224);
+  display: flex;
+  border: 2px solid #0a0a0a; /* Độ rộng và màu sắc của khung */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+.middlepane h1{
+  position: absolute; /* Đặt tiêu đề là phần tử có vị trí tương đối */
+  top: 20px; /* Đặt top thành 0 để đặt tiêu đề ở trên */
+  left: 45%; /* Đặt left thành 0 để đặt tiêu đề ở bên trái */
+  z-index: 1; /* Đặt z-index cao hơn để đảm bảo nằm phía trên hình ảnh */
+  background-color: rgba(243,243,224); /* Tạo nền mờ trắng cho tiêu đề (tuỳ chọn) */
+}
+
+.rightpane {
+  width: 35%;
+  height: 70vh;
+  background-color: rgb(243, 243, 224);
+  display: flex;
+  border: 2px solid #0a0a0a; /* Độ rộng và màu sắc của khung */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  /* Thêm các thuộc tính khác tùy ý */
+}
+.rightpane h1{
+  position: absolute; /* Đặt tiêu đề là phần tử có vị trí tương đối */
+  top: 20px; /* Đặt top thành 0 để đặt tiêu đề ở trên */
+  left: 79%; /* Đặt left thành 0 để đặt tiêu đề ở bên trái */
+  z-index: 1; /* Đặt z-index cao hơn để đảm bảo nằm phía trên hình ảnh */
+  background-color: rgba(243,243,224); /* Tạo nền mờ trắng cho tiêu đề (tuỳ chọn) */
+}
+.rightpane h3{
+  position: absolute; /* Đặt tiêu đề là phần tử có vị trí tương đối */
+  top: 400px; /* Đặt top thành 0 để đặt tiêu đề ở trên */
+  left: 70%; /* Đặt left thành 0 để đặt tiêu đề ở bên trái */
+  z-index: 1; /* Đặt z-index cao hơn để đảm bảo nằm phía trên hình ảnh */
+  background-color: rgba(243,243,224); /* Tạo nền mờ trắng cho tiêu đề (tuỳ chọn) */
+
+}
+.rightpane p{
+  position: absolute; /* Đặt tiêu đề là phần tử có vị trí tương đối */
+  top: 450px; /* Đặt top thành 0 để đặt tiêu đề ở trên */
+  left: 70%; /* Đặt left thành 0 để đặt tiêu đề ở bên trái */
+  z-index: 1; /* Đặt z-index cao hơn để đảm bảo nằm phía trên hình ảnh */
+  background-color: rgba(243,243,224); /* Tạo nền mờ trắng cho tiêu đề (tuỳ chọn) */
+
+}
+
+
+
+.d-flex {
+  display: flex;
+}
+.login-button {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px 20px;
+  background-color: #f4b94d;
+  color: #fff;
+  border: 1px #f7f1ee;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.lienhe {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  padding: 10px 20px;
+  background-color: #eb9a3e;
+  color: #fff;
+  border:1px #f4efef;
+  cursor: pointer;
+  z-index: 1;
+}
+/* Tuỳ chỉnh kiểu dáng nút đăng nhập theo ý muốn */

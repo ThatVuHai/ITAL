@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lịch bón phân.</title>
+    <style>
+        body { width: 320; height: 480; margin: 20, auto; }
+        #calWrapper { width: 100%; margin: 0 5; border: 1px solid #ccc; }
+        .dayCell { width: 40px; height: 40px; font-size: 11px; vertical-align: top; text-align: right; background-color: aliceblue;}
+        .dayHeader { 
+            width: 40px;
+            height: 20px; 
+            background-color: #ddd;
+        }
+        .today { border: 2px solid blue;}
+        .highlight { background-color: #ffd700; } /* Màu nền của ô lịch được gạch chân */
+		.tick-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+    </style>
+</head>
+<body>
+    <h3>Month view for <span id="dateHolder"></span></h3>
+    <table id="calWrapper"></table>
+	<h1>Đề xuất phân bón.</h1>
+	<h3 class="kiem"></h3>
+
+
+
+
+
+
+
+    <script type="text/javascript">
+        (function(){
+            var today = new Date();
+            var currentDay = today.getDate();
+
+            var month,day,year,firstDay;
+            month = today.getMonth();
+            day = today.getDate();
+            year = today.getFullYear();
+            
+            firstDay = new Date(year,month,1);
+            
+            var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+            var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+            
+            function displayDate() {
+                var holder = document.getElementById("dateHolder");
+                holder.innerText = months[month] + ' ' + year;
+            }
+            
+            function createDayHeaders() {
+                var wrapper = document.getElementById("calWrapper");
+                var row = document.createElement("tr");
+                for(var i = 0; i<days.length; i++) {
+                    var el = document.createElement("th");
+                    el.setAttribute("class","dayHeader");
+                    el.innerText = days[i];
+                    row.appendChild(el);
+                }
+                wrapper.appendChild(row);
+            }
+            
+            function createDayCells() {
+                var dayOne = firstDay.getDay();
+                var iDay = 0;
+                
+                var wrapper = document.getElementById("calWrapper");
+                var lastDay = new Date(year,month+1,0).getDate();
+                
+                while(iDay < lastDay) {
+                    var row = document.createElement("tr");
+                    for(var i = 0; i<days.length; i++) {
+                        var el = document.createElement("td");
+
+                        if(dayOne === i || iDay > 0) {
+                            if(day === iDay)
+                                el.setAttribute("class", "dayCell today");
+                            else
+                                el.setAttribute("class", "dayCell");
+
+                            if(iDay <= lastDay)
+                                iDay++;
+                            else
+                                break;
+                            el.innerText = iDay;
+
+                            if (iDay === currentDay || iDay === currentDay + 6 || iDay === currentDay + 12|| iDay === currentDay + 18) {
+                                var checkmark = document.createElement("img");
+								checkmark.src = "dangnhap/chu/image/bonphan_tat.png";
+								checkmark.classList.add("tick-image");
+                                el.appendChild(checkmark);
+                            }
+
+                                    }
+
+                        row.appendChild(el);
+                    }
+                    wrapper.appendChild(row);
+                }
+            }
+            
+            displayDate(today);
+            createDayHeaders();
+            createDayCells();
+        })();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/plugins/animation.gsap.js"></script>
+    <script src="script.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+<script>
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyANfPTkqQzGOfd0Vx49DErzoZ1pkaF5VVo",
+  authDomain: "iot1-59099.firebaseapp.com",
+  databaseURL: "https://iot1-59099-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "iot1-59099",
+  storageBucket: "iot1-59099.appspot.com",
+  messagingSenderId: "1040269984061",
+  appId: "1:1040269984061:web:df7c867c5f1c7517890554",
+  measurementId: "G-5RP9F9NRF5"
+};
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  //functions
+  // make sure that the name in ' ' match with name of your database child
+  var nhietDo = document.getElementById('Nhietdo');
+  var dbRef = firebase.database().ref().child('Nhiet do');
+  var doAm = document.getElementById('Doam');
+  var doAmRef = firebase.database().ref().child('Do am');
+  dbRef.on('value', snap => nhietDo.innerText = snap.val());
+  doAmRef.on('value', snap => doAm.innerText = snap.val());
+  var pH = document.getElementById('Ph');
+ // Đăng ký sự kiện lắng nghe thay đổi trong cơ sở dữ liệu Firebase
+var dbRef3 = firebase.database().ref().child('pH');
+
+dbRef3.on('value', function(snapshot) {
+  // Lấy giá trị pH từ snapshot
+  var pHValue = snapshot.val();
+
+  // Gọi hàm Phanbon với giá trị pH đã lấy được
+  Phanbon(pHValue);
+
+});
+
+  </script>
+
+<script>
+var doAmRef = firebase.database().ref("pH");
+function Phanbon(pH) {
+  var pHStatusElement = document.querySelector('.kiem');
+  
+  if (pH > 7.5) {
+    pHStatusElement.innerHTML = '<img src="image/kiem.jpg" alt="Warning: pH vượt quá mức cho phép!">' +
+                                 '<img src="image/kiem1.jpg" alt="Warning: pH vượt quá mức cho phép!">' +
+                                 '<img src="image/kiem2.jpg" alt="Warning: pH vượt quá mức cho phép!">';
+  } else if (pH < 5.5) {
+	pHStatusElement.innerHTML = '<img src="/image/chua.jpg" alt="Warning: pH vượt quá mức cho phép!">' +
+                                 '<img src="/image/chua1.jpg" alt="Warning: pH vượt quá mức cho phép!">' +
+                                 '<img src="/image/chua2.jpg" alt="Warning: pH vượt quá mức cho phép!">';
+  } else {
+    // Nếu pH không > 7 hoặc < 7, bạn có thể xóa nội dung của phần tử .kiem
+    pHStatusElement.innerHTML = "";
+  }
+}
+
+// Gọi hàm Phanbon và truyền giá trị pH vào nó, ví dụ pH = 8
+</script>
+
+
+
+</body>
+</html>
