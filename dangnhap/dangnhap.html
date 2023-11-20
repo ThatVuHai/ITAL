@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Đăng nhập</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Please Login</h1>
+      <form id="login-form">
+        <div class="form-control">
+          <input type="text" id="username" required />
+          <label>Username</label>
+        </div>
+        <div class="form-control">
+          <input type="password" id="password" required />
+          <label>Password</label>
+        </div>
+        <button class="btn">Login</button>
+        <p class="text">Don't have an account? <a href="#">Register</a></p>
+      </form>
+    </div>
+    <script src="script.js"></script>
+    <script>
+      document.getElementById("login-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Ngăn chặn việc gửi biểu mẫu mặc định
+  
+        // Kiểm tra tên tài khoản và mật khẩu và thực hiện chuyển hướng nếu đúng
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        if (username === "giaothuciot" && password === "123") {
+          window.location.href = "chu/chu.html";
+        }
+      });
+    </script>
+  </body>
+</html>
